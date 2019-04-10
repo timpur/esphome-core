@@ -174,6 +174,9 @@ uint8_t reverse_bits_8(uint8_t x);
 uint16_t reverse_bits_16(uint16_t x);
 uint32_t reverse_bits_32(uint32_t x);
 
+uint16_t reverse_bytes_16(uint16_t x);
+uint32_t reverse_bytes_32(uint32_t x);
+
 /** Cross-platform method to disable interrupts.
  *
  * Useful when you need to do some timing-dependent communication.

@@ -344,6 +344,19 @@ uint8_t reverse_bits_8(uint8_t x) {
 uint16_t reverse_bits_16(uint16_t x) {
   return uint16_t(reverse_bits_8(x & 0xFF) << 8) | uint16_t(reverse_bits_8(x >> 8));
 }
+
+uint32_t reverse_bits_32(uint32_t x) {
+  return uint32_t(reverse_bits_16(x & 0xFFFF) << 16) | uint32_t(reverse_bits_16(x >> 16));
+}
+
+uint16_t reverse_bytes_16(uint16_t x) {
+  return uint16_t((x & 0xFF) << 8) | uint16_t(x >> 8);
+}
+
+uint32_t reverse_bytes_32(uint32_t x) {
+  return uint32_t(reverse_bytes_16(x & 0xFFFF) << 16) | uint32_t(reverse_bytes_16(x >> 16))
+}
+
 void tick_status_led() {
 #ifdef USE_STATUS_LED
   if (global_status_led != nullptr) {
@@ -433,10 +446,6 @@ uint32_t fnv1_hash(const std::string &str) {
 }
 bool str_equals_case_insensitive(const std::string &a, const std::string &b) {
   return strcasecmp(a.c_str(), b.c_str()) == 0;
-}
-
-template<uint32_t> uint32_t reverse_bits(uint32_t x) {
-  return uint32_t(reverse_bits_16(x & 0xFFFF) << 16) | uint32_t(reverse_bits_16(x >> 16));
 }
 
 VectorJsonBuffer::String::String(VectorJsonBuffer *parent) : parent_(parent), start_(parent->size_) {}
