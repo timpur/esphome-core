@@ -24,14 +24,14 @@ static const uint8_t QMC5883L_REGISTER_DATA_T_LSB = 0x07;
 static const uint8_t QMC5883L_REGISTER_DATA_T_MSB = 0x08;
 static const uint8_t QMC5883L_REGISTER_CONTROL_A = 0x09;
 static const uint8_t QMC5883L_REGISTER_CONTROL_B = 0x0A;
-static const uint8_t QMC5883L_REGISTER_RESET = 0x0B;
+static const uint8_t QMC5883L_REGISTER_PERIOD = 0x0B;
 static const uint8_t QMC5883L_REGISTER_IDENTIFICATION = 0x0D;
 
 QMC5883LComponent::QMC5883LComponent(I2CComponent *parent, const std::string &x_name, const std::string &y_name,
                                      const std::string &z_name, const std::string &heading_name,
                                      uint32_t update_interval)
-    : PollingComponent(update_interval),
-      I2CDevice(parent, QMC5883L_ADDRESS),
+    : I2CDevice(parent, QMC5883L_ADDRESS),
+      PollingComponent(update_interval),
       x_sensor_(new QMC5883LFieldStrengthSensor(x_name, this)),
       y_sensor_(new QMC5883LFieldStrengthSensor(y_name, this)),
       z_sensor_(new QMC5883LFieldStrengthSensor(z_name, this)),
@@ -59,6 +59,14 @@ void QMC5883LComponent::setup() {
     return;
   }
 
+  // Soft Reset
+  if (!this->write_byte(QMC5883L_REGISTER_CONTROL_B, 1 << 7)) {
+    this->error_code_ = COMMUNICATION_FAILED;
+    this->mark_failed();
+    return;
+  }
+  delay(10);
+
   uint8_t control_a = 0;
   // 0bxx000000 << 6 : OSR (Over Sample Ratio) -> 0b00=512, 0b11=64
   control_a |= (0b00) << 6;
@@ -77,9 +85,20 @@ void QMC5883LComponent::setup() {
 
   uint8_t control_b = 0;
   // 0bx0000000 << 7 : SOFT_RST (Soft Reset) -> 0b00=disabled, 0b01=enabled
-  control_b |= (0b1) << 7;
+  control_b |= (0b0) << 7;
+  // 0b0x000000 << 6 : ROL_PNT (Pointer Roll Over) -> 0b00=disabled, 0b01=enabled
+  control_b |= (0b0) << 6;
+  // 0b0000000x << 0 : INT_ENB (Interrupt) -> 0b00=disabled, 0b01=enabled
+  control_b |= (0b0) << 0;
 
   if (!this->write_byte(QMC5883L_REGISTER_CONTROL_B, control_b)) {
+    this->error_code_ = COMMUNICATION_FAILED;
+    this->mark_failed();
+    return;
+  }
+
+  // Default Set/Reset period (Recommended)
+  if (!this->write_byte(QMC5883L_REGISTER_PERIOD, 0x01)) {
     this->error_code_ = COMMUNICATION_FAILED;
     this->mark_failed();
     return;
@@ -117,6 +136,8 @@ void QMC5883LComponent::update() {
   raw_x = reverse_bytes_16(raw_x);
   raw_y = reverse_bytes_16(raw_y);
   raw_z = reverse_bytes_16(raw_z);
+
+  ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
 
   float LSB_Gauss = NAN;
   switch (this->range_) {
