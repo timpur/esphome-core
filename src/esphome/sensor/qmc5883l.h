@@ -23,7 +23,7 @@ class QMC5883LComponent : public PollingComponent, public I2CDevice {
   QMC5883LComponent(I2CComponent *parent, const std::string &x_name, const std::string &y_name,
                     const std::string &z_name, const std::string &heading_name, uint32_t update_interval = 60000);
 
-  void set_range(QMC5883LRange range);
+  void set_range(const QMC5883LRange range);
 
   // ========== INTERNAL METHODS ==========
   // (In most use cases you won't need these)

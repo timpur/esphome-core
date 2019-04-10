@@ -15,10 +15,10 @@ static const char *TAG = "sensor.qmc5883l";
 static const uint8_t QMC5883L_ADDRESS = 0x0D;
 static const uint8_t QMC5883L_REGISTER_DATA_X_LSB = 0x00;
 static const uint8_t QMC5883L_REGISTER_DATA_X_MSB = 0x01;
-static const uint8_t QMC5883L_REGISTER_DATA_Z_LSB = 0x02;
-static const uint8_t QMC5883L_REGISTER_DATA_Z_MSB = 0x03;
-static const uint8_t QMC5883L_REGISTER_DATA_Y_LSB = 0x04;
-static const uint8_t QMC5883L_REGISTER_DATA_Y_MSB = 0x05;
+static const uint8_t QMC5883L_REGISTER_DATA_Y_LSB = 0x02;
+static const uint8_t QMC5883L_REGISTER_DATA_Y_MSB = 0x03;
+static const uint8_t QMC5883L_REGISTER_DATA_Z_LSB = 0x04;
+static const uint8_t QMC5883L_REGISTER_DATA_Z_MSB = 0x05;
 static const uint8_t QMC5883L_REGISTER_STATUS = 0x06;
 static const uint8_t QMC5883L_REGISTER_DATA_T_LSB = 0x07;
 static const uint8_t QMC5883L_REGISTER_DATA_T_MSB = 0x08;
@@ -42,7 +42,7 @@ QMC5883LFieldStrengthSensor *QMC5883LComponent::get_y_sensor() const { return th
 QMC5883LFieldStrengthSensor *QMC5883LComponent::get_z_sensor() const { return this->z_sensor_; }
 QMC5883LHeadingSensor *QMC5883LComponent::get_heading_sensor() const { return this->heading_sensor_; }
 
-void QMC5883LComponent::set_range(QMC5883LRange range) { this->range_ = range; }
+void QMC5883LComponent::set_range(const QMC5883LRange range) { this->range_ = range; }
 
 void QMC5883LComponent::setup() {
   ESP_LOGCONFIG(TAG, "Setting up QMC5583L...");
@@ -131,6 +131,8 @@ void QMC5883LComponent::update() {
     this->status_set_warning();
     return;
   }
+
+  ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
 
   // QMC5883L is LSB first
   raw_x = reverse_bytes_16(raw_x);
