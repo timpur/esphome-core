@@ -63,7 +63,7 @@ void QMC5883LComponent::setup() {
   // 0bxx000000 << 6 : OSR (Over Sample Ratio) -> 0b00=512, 0b11=64
   control_a |= (0b00) << 6;
   // 0b00xx0000 << 4 : RNG (Full Scale) -> 0b00=2G, 0b01=8g
-  control_a |= (0b01) << 4;
+  control_a |= this->range_ << 4;
   // 0b0000xx00 << 2 : ODR (Output Data Rate) -> 0b00=10Hz, 0b11=200Hz
   control_a |= (0b00) << 2;
   // 0b000000xx << 0 : MOD (Mode Control) -> 0b00=standby, 0b01=continuous

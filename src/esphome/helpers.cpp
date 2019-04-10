@@ -349,12 +349,10 @@ uint32_t reverse_bits_32(uint32_t x) {
   return uint32_t(reverse_bits_16(x & 0xFFFF) << 16) | uint32_t(reverse_bits_16(x >> 16));
 }
 
-uint16_t reverse_bytes_16(uint16_t x) {
-  return uint16_t((x & 0xFF) << 8) | uint16_t(x >> 8);
-}
+uint16_t reverse_bytes_16(uint16_t x) { return uint16_t((x & 0xFF) << 8) | uint16_t(x >> 8); }
 
 uint32_t reverse_bytes_32(uint32_t x) {
-  return uint32_t(reverse_bytes_16(x & 0xFFFF) << 16) | uint32_t(reverse_bytes_16(x >> 16))
+  return uint32_t(reverse_bytes_16(x & 0xFFFF) << 16) | uint32_t(reverse_bytes_16(x >> 16));
 }
 
 void tick_status_led() {

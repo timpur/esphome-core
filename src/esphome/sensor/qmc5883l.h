@@ -38,7 +38,7 @@ class QMC5883LComponent : public PollingComponent, public I2CDevice {
   void dump_config() override;
 
  protected:
-  QMC5883LRange range_{QMC5883L_RANGE_130_UT};
+  QMC5883LRange range_{QMC5883L_RANGE_8_G};
   QMC5883LFieldStrengthSensor *x_sensor_;
   QMC5883LFieldStrengthSensor *y_sensor_;
   QMC5883LFieldStrengthSensor *z_sensor_;

@@ -129,37 +129,41 @@ PollingSensorComponent::PollingSensorComponent(const std::string &name, uint32_t
 
 uint32_t PollingSensorComponent::update_interval() { return this->get_update_interval(); }
 
-const char ICON_FLASH[] = "mdi:flash";
-const char UNIT_V[] = "V";
-const char ICON_EMPTY[] = "";
-const char UNIT_C[] = "°C";
-const char ICON_GAUGE[] = "mdi:gauge";
-const char UNIT_HPA[] = "hPa";
-const char ICON_WATER_PERCENT[] = "mdi:water-percent";
-const char UNIT_PERCENT[] = "%";
-const char ICON_SCREEN_ROTATION[] = "mdi:screen-rotation";
-const char ICON_BRIEFCASE_DOWNLOAD[] = "mdi:briefcase-download";
-const char UNIT_DEGREES_PER_SECOND[] = "°/s";
-const char UNIT_M_PER_S_SQUARED[] = "m/s²";
-const char ICON_BRIGHTNESS_5[] = "mdi:brightness-5";
-const char UNIT_LX[] = "lx";
-const char UNIT_OHM[] = "Ω";
-const char ICON_GAS_CYLINDER[] = "mdi:gas-cylinder";
-const char ICON_PERIODIC_TABLE_CO2[] = "mdi:periodic-table-co2";
-const char UNIT_PPM[] = "ppm";
-const char UNIT_A[] = "A";
-const char UNIT_W[] = "W";
-const char ICON_MAGNET[] = "mdi:magnet";
-const char ICON_THERMOMETER[] = "mdi:thermometer";
-const char ICON_LIGHTBULB[] = "mdi:lightbulb";
 const char ICON_BATTERY[] = "mdi:battery";
-const char ICON_FLOWER[] = "mdi:flower";
-const char UNIT_UT[] = "µT";
-const char UNIT_DEGREES[] = "°";
-const char UNIT_K[] = "K";
-const char UNIT_MICROSIEMENS_PER_CENTIMETER[] = "µS/cm";
-const char UNIT_MICROGRAMS_PER_CUBIC_METER[] = "µg/m³";
+const char ICON_BRIEFCASE_DOWNLOAD[] = "mdi:briefcase-download";
+const char ICON_BRIGHTNESS_5[] = "mdi:brightness-5";
 const char ICON_CHEMICAL_WEAPON[] = "mdi:chemical-weapon";
+const char ICON_EMPTY[] = "";
+const char ICON_FLASH[] = "mdi:flash";
+const char ICON_FLOWER[] = "mdi:flower";
+const char ICON_GAS_CYLINDER[] = "mdi:gas-cylinder";
+const char ICON_GAUGE[] = "mdi:gauge";
+const char ICON_LIGHTBULB[] = "mdi:lightbulb";
+const char ICON_MAGNET[] = "mdi:magnet";
+const char ICON_PERIODIC_TABLE_CO2[] = "mdi:periodic-table-co2";
+const char ICON_PULSE[] = "mdi:pulse";
+const char ICON_SCREEN_ROTATION[] = "mdi:screen-rotation";
+const char ICON_THERMOMETER[] = "mdi:thermometer";
+const char ICON_WATER_PERCENT[] = "mdi:water-percent";
+
+const char UNIT_A[] = "A";
+const char UNIT_C[] = "°C";
+const char UNIT_DEGREES_PER_SECOND[] = "°/s";
+const char UNIT_DEGREES[] = "°";
+const char UNIT_HERTZ[] = "Hz";
+const char UNIT_HPA[] = "hPa";
+const char UNIT_K[] = "K";
+const char UNIT_LX[] = "lx";
+const char UNIT_M_PER_S_SQUARED[] = "m/s²";
+const char UNIT_MICROGRAMS_PER_CUBIC_METER[] = "µg/m³";
+const char UNIT_MICROSECONDS[] = "μs";
+const char UNIT_MICROSIEMENS_PER_CENTIMETER[] = "µS/cm";
+const char UNIT_OHM[] = "Ω";
+const char UNIT_PERCENT[] = "%";
+const char UNIT_PPM[] = "ppm";
+const char UNIT_UT[] = "µT";
+const char UNIT_V[] = "V";
+const char UNIT_W[] = "W";
 
 SensorStateTrigger::SensorStateTrigger(Sensor *parent) {
   parent->add_on_state_callback([this](float value) { this->trigger(value); });

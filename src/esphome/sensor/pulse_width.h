@@ -38,10 +38,6 @@ class PulseWidthBase {
   uint32_t last_pulse_;
 };
 
-extern const char UNIT_HERTZ[] = "Hz";
-extern const char UNIT_MICROSECONDS[] = "μs";
-extern const char ICON_PULSE[] = "mdi:pulse";
-
 using PulseWidthPWMSenor = EmptyPollingParentSensor<2, ICON_PULSE, UNIT_PERCENT>;
 using PulseWidthFrequencySenor = EmptyPollingParentSensor<2, ICON_PULSE, UNIT_HERTZ>;
 using PulseWidthPulseSenor = EmptyPollingParentSensor<0, ICON_PULSE, UNIT_MICROSECONDS>;
