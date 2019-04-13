@@ -15,8 +15,8 @@ namespace sensor {
 enum QMC5883LRange { QMC5883L_RANGE_2_G = 0b00, QMC5883L_RANGE_8_G = 0b01 };
 enum ErrorCode { NONE = 0, COMMUNICATION_FAILED, ID_REGISTERS };
 
-using QMC5883LFieldStrengthSensor = EmptyPollingParentSensor<1, ICON_MAGNET, UNIT_UT>;
-using QMC5883LHeadingSensor = EmptyPollingParentSensor<1, ICON_SCREEN_ROTATION, UNIT_DEGREES>;
+using QMC5883LFieldStrengthSensor = EmptyPollingParentSensor<2, ICON_MAGNET, UNIT_UT>;
+using QMC5883LHeadingSensor = EmptyPollingParentSensor<2, ICON_SCREEN_ROTATION, UNIT_DEGREES>;
 
 class QMC5883LComponent : public PollingComponent, public I2CDevice {
  public:

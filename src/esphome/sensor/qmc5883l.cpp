@@ -132,14 +132,14 @@ void QMC5883LComponent::update() {
     return;
   }
 
-  ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
+  // ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
 
   // QMC5883L is LSB first
   raw_x = reverse_bytes_16(raw_x);
   raw_y = reverse_bytes_16(raw_y);
   raw_z = reverse_bytes_16(raw_z);
 
-  ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
+  // ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
 
   float LSB_Gauss;
   switch (this->range_) {
