@@ -141,7 +141,7 @@ void QMC5883LComponent::update() {
 
   ESP_LOGD(TAG, "Got Raw x=%uLSB y=%uLSB z=%uLSB", raw_x, raw_y, raw_z);
 
-  float LSB_Gauss = NAN;
+  float LSB_Gauss;
   switch (this->range_) {
     case QMC5883L_RANGE_2_G:
       LSB_Gauss = 12000.0f;
@@ -149,13 +149,17 @@ void QMC5883LComponent::update() {
     case QMC5883L_RANGE_8_G:
       LSB_Gauss = 3000.0f;
       break;
+    default:
+      ESP_LOGD(TAG, "Range is not valid.");
+      this->status_set_warning();
+      return;
   }
 
   // in µT
-  const float x = int16_t(raw_x) / LSB_Gauss * SENSORS_GAUSS_TO_MICROTESLA;
-  const float y = int16_t(raw_y) / LSB_Gauss * SENSORS_GAUSS_TO_MICROTESLA;
-  const float z = int16_t(raw_z) / LSB_Gauss * SENSORS_GAUSS_TO_MICROTESLA;
-  float heading = atan2f(0.0f - x, y) * 180.0f / M_PI;
+  const float x = float(int16_t(raw_x)) / LSB_Gauss * float(SENSORS_GAUSS_TO_MICROTESLA);
+  const float y = float(int16_t(raw_y)) / LSB_Gauss * float(SENSORS_GAUSS_TO_MICROTESLA);
+  const float z = float(int16_t(raw_z)) / LSB_Gauss * float(SENSORS_GAUSS_TO_MICROTESLA);
+  float heading = atan2f(y, x) * 180.0f / M_PI;
 
   ESP_LOGD(TAG, "Got x=%0.02fµT y=%0.02fµT z=%0.02fµT heading=%0.01f°", x, y, z, heading);
 
