@@ -149,13 +149,15 @@ void QMC5883LComponent::update() {
     case QMC5883L_RANGE_8_G:
       LSB_Gauss = 3000.0f;
       break;
+    default:
+      ESP_LOGD(TAG)
   }
 
   // in µT
-  const float x = int16_t(raw_x) / LSB_Gauss * SENSORS_GAUSS_TO_MICROTESLA;
-  const float y = int16_t(raw_y) / LSB_Gauss * SENSORS_GAUSS_TO_MICROTESLA;
-  const float z = int16_t(raw_z) / LSB_Gauss * SENSORS_GAUSS_TO_MICROTESLA;
-  float heading = atan2f(0.0f - x, y) * 180.0f / M_PI;
+  const float x = float(int16_t(raw_x)) / LSB_Gauss * float(SENSORS_GAUSS_TO_MICROTESLA);
+  const float y = float(int16_t(raw_y)) / LSB_Gauss * float(SENSORS_GAUSS_TO_MICROTESLA);
+  const float z = float(int16_t(raw_z)) / LSB_Gauss * float(SENSORS_GAUSS_TO_MICROTESLA);
+  float heading = atan2f(y, x) * 180.0f / M_PI;
 
   ESP_LOGD(TAG, "Got x=%0.02fµT y=%0.02fµT z=%0.02fµT heading=%0.01f°", x, y, z, heading);
 
